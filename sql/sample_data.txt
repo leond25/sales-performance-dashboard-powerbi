@@ -1,0 +1,62 @@
+INSERT INTO customers (customer_name, signup_date, country) VALUES
+('Alice Johnson', '2025-01-12', 'US'),
+('Bob Smith',     '2025-02-03', 'US'),
+('Carla Reyes',   '2025-02-18', 'Canada'),
+('David Kim',     '2025-03-05', 'US'),
+('Emma Brown',    '2025-03-19', 'US'),
+('Frank Miller',  '2025-04-01', 'US'),
+('Grace Lee',     '2025-04-15', 'Canada'),
+('Hassan Ali',    '2025-05-02', 'US');
+
+
+INSERT INTO products (product_name, category, price) VALUES
+('Pro Subscription',      'Software', 50.00),
+('Starter Subscription',  'Software', 20.00),
+('Analytics Add-on',      'Addon',    15.00),
+('Onboarding Package',    'Service',  99.00);
+3) Insert orders + order items (engineered to show a last-quarter drop)
+
+Assume “last quarter” in my story is Q4 2025 (Oct–Dec 2025), and the decline happens mostly in Nov–Dec.
+
+-- Orders
+INSERT INTO orders (customer_id, order_date, channel) VALUES
+(1, '2025-09-05', 'Online'),
+(2, '2025-09-10', 'Online'),
+(3, '2025-09-20', 'Retail'),
+(4, '2025-10-02', 'Online'),
+(5, '2025-10-12', 'Retail'),
+(6, '2025-10-20', 'Partner'),
+(1, '2025-11-05', 'Online'),
+(2, '2025-11-18', 'Online'),
+(7, '2025-11-22', 'Retail'),
+(8, '2025-12-03', 'Online'),
+(5, '2025-12-15', 'Partner');
+
+
+-- Order items
+-- September (strong)
+INSERT INTO order_items (order_id, product_id, quantity, unit_price, discount_pct) VALUES
+(1, 1, 2, 50.00, 0.00),
+(2, 1, 1, 50.00, 0.00),
+(3, 2, 3, 20.00, 0.00);
+
+
+-- October (still strong, mix of products)
+INSERT INTO order_items VALUES
+(NULL, 4, 1, 1, 50.00, 0.00),
+(NULL, 4, 3, 2, 15.00, 0.00),
+(NULL, 5, 1, 1, 50.00, 10.00),  -- discount starts
+(NULL, 6, 4, 1, 99.00, 0.00);
+
+
+-- November (drop begins: fewer Pro Subs, more Starter)
+INSERT INTO order_items VALUES
+(NULL, 7, 2, 2, 20.00, 0.00),
+(NULL, 8, 2, 1, 20.00, 0.00),
+(NULL, 9, 3, 1, 15.00, 0.00);
+
+
+-- December (drop continues: small orders, more discount pressure)
+INSERT INTO order_items VALUES
+(NULL, 10, 2, 1, 20.00, 0.00),
+(NULL, 11, 2, 2, 20.00, 15.00);
